@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View User Posts</title>
+</head>
+<body>
+    <a href="AdminHome.html">Admin Home</a>
+    <form action="ViewUserPosts.php" method="POST">
+        <label for="username">Choose User to view posts</label>
+        <select name="username">
+            <?php
+                $mysqli = new mysqli("mysql.eecs.ku.edu", "minhe", "Mao4Nei9", "minhe");
+				if (!$mysqli->connect_errno) {
+				    $query = "SELECT user_id FROM Users ORDER BY user_id ASC";
+					if ($result = $mysqli->query($query)) {
+						while ($row = $result->fetch_assoc()) {
+							echo "<option value=\"" . $row["user_id"] . "\">" . $row["user_id"] . "</option>";
+						}
+						$result->free();
+					}
+                }
+                else{
+                    printf("Connect failed: %s\n", $mysqli->connect_error);
+                    exit();
+                }
+                $mysqli->close();
+			?>
+        </select>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
